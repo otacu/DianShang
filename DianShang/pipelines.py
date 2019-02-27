@@ -19,9 +19,10 @@ class MysqlPipeline(object):
         self.cursor = self.conn.cursor()
 
     def process_item(self, item, spider):
-        insert_sql = """
-            insert into tb_dianshang_item(`name`, img, price, shop)
-            VALUES (%s, %s, %s, %s)
-        """
-        self.cursor.execute(insert_sql, (item["name"], item["img"], item["price"], item["shop"]))
-        self.conn.commit()
+        if spider.name == 'jd':
+            insert_sql = """
+                insert into tb_dianshang_item(`name`, img, price, shop)
+                VALUES (%s, %s, %s, %s)
+            """
+            self.cursor.execute(insert_sql, (item["name"], item["img"], item["price"], item["shop"]))
+            self.conn.commit()
